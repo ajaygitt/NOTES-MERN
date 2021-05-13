@@ -2,12 +2,33 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import Server from "../../Server";
-import EditNote from "./EditNote";
-import { Dropdown, Form, Modal, ModalDialog } from 'react-bootstrap';
-
+import { Dropdown, Form, ModalDialog } from 'react-bootstrap';
+import 'react-responsive-modal/styles.css';
+import { Modal } from 'react-responsive-modal';
 
 function MyNotes()
 {
+
+const [open,setOpen]=useState(false)
+
+const onCloseModal=()=>setOpen(false)
+
+function onOpenModal(id,title,note)
+{
+    setEditNote(note)
+    setEditTitle(title)
+    setEditId(id)
+    setOpen(true);
+   
+}
+
+
+
+
+
+
+
+
     let history=useHistory()
     let jwt=localStorage.getItem('jwt')
     useEffect(()=>{
@@ -51,15 +72,32 @@ function editNote(id,title,note){
 
 
 setEditNote(note)
+console.log(note);
 setEditTitle(title)
 setEditId(id)
 
 
 }
 
+function editthisNote()
+{
+let data={
+    jwt,
+    editId,
+    editTitle,
+    editnotes
+}
+
+axios.post(Server+'/EditNote',data).then(()=>{
+
+    alert('Updated successfully')
+    window.location.reload()
+})
+}
+
 const[editId,setEditId]=useState('')
 const[editTitle,setEditTitle]=useState('')
-     const[editnote,setEditNote]=useState('')
+     const[editnotes,setEditNote]=useState('')
     const[notes,SetNotes]=useState('')
 return (
 
@@ -85,6 +123,26 @@ return (
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {notes.length>0?(
     notes.map((data,inex)=>{
 
@@ -102,7 +160,10 @@ return (
                     </div>
                     <div className="d-flex align-items-center">
                <button className="fa fa-trash remove-note btn" onClick={(e) => deleteNote(data._id)}>Delete</button>
-               <button className="fa fa-trash remove-note btn" onClick={(e) => editNote(data._id,data.title,data.notes)}>Edit</button>
+               <button onClick={(e)=>onOpenModal(data._id,data.title,data.notes)}>
+                    <i class="material-icons">library_books</i> Classic
+                    <div class="ripple-container"></div>
+                </button>
                         <div className="ml-auto">
                             <div className="category-selector btn-group">
                                 <a className="nav-link dropdown-toggle category-dropdown label-group p-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
@@ -118,7 +179,20 @@ return (
                         </div>
                     </div>
                 </div>
+                <Modal open={open} onClose={onCloseModal} center>
+       
+      <label>
+          Edit the title</label> <input type='text' value={editTitle} onChange={(e)=>setEditTitle(e.target.value)} />
+
+          Edit the note
+          <textarea rows='10' cols="58"value={editnotes} onChange={(event)=>setEditNote(event.target.value)} >       </textarea>
+          <button className="btn" onClick={editthisNote}> Update</button>
+
+      </Modal>
+
+           
             </div>
+
 
 
 

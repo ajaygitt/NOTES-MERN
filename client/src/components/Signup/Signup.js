@@ -111,7 +111,7 @@ const [LoginPassword,setLoginPassword]=useState('')
 		<div className="container">
 			<h2 className="text-center" id="title">Notes</h2>
 			 <p className="text-center">
-				<small id="passwordHelpInline" className="text-muted"> Developer: AjayPradeep<a href="http://ajaypradeep.ga">ajaypradeep.ga</a>.</small>
+				<small id="passwordHelpInline" className="text-muted"> Developer: AjayPradeep <a href="http://www.ajaypradeep.ga/">ajaypradeep.ga</a>.</small>
 			</p>
 
 			<div className="row">
@@ -157,7 +157,7 @@ const [LoginPassword,setLoginPassword]=useState('')
 								<input type="password" name="LoginPassword" id="LoginPassword" className="form-control input-lg" onChange={(event)=>setLoginPassword(event.target.value)}  placeholder="Password"/>
 							</div>
 							<div>
-								<input className="btn btn-md" value="Sign In" onClick={LoginForm}  />
+								<input className="btn btn-primary" value="Sign In" onClick={LoginForm}  />
 							</div>
 								 
  						</fieldset>
@@ -166,7 +166,7 @@ const [LoginPassword,setLoginPassword]=useState('')
 			</div>
 		</div>
 		<p className="text-center">
-			<small id="passwordHelpInline" className="text-muted"> Developer:<a href="http://www.psau.edu.ph/"> Pampanga state agricultural university ?</a> BS. Information and technology students @2017 Credits: <a href="https://v4-alpha.getbootstrap.com/">boostrap v4.</a></small>
+			<small id="passwordHelpInline" className="text-muted"> Developer:<a href="http://www.ajaypradeep.ga/"> Ajay Pradeep</a> </small>
 		</p>
 	</div>
       </div>

@@ -103,6 +103,22 @@ module.exports={
 
           return true;
         })
+      },
+
+      editNote:(id,title,notes)=>{
+console.log("this is not applicatble",notes);
+        db.get().collection(collection.NOTES_COLLECTION).updateOne({_id:ObjectID(id)},
+        
+        {
+          $set:{
+
+            title:title,
+            notes:notes
+          }
+        }
+        
+        )
+        return true;
       }
 
 

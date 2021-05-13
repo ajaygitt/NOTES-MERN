@@ -104,5 +104,12 @@ router.post('/deleteNote',verifyLoggedIn,(req,res)=>{
     res.send('ok');
     })
 
+router.post('/EditNote',verifyLoggedIn,(req,res)=>{
+
+    console.log(req.body);
+    controller.editNote(req.body.editId,req.body.editTitle,req.body.editnotes)
+    res.send('ok')
+})
+
 
 module.exports = router
