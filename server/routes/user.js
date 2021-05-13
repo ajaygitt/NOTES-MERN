@@ -91,12 +91,18 @@ res.status(200).send('done')
 })
 
 router.post('/getMyNotes',verifyLoggedIn,(req,res)=>{
-    console.log("heri");
-
     controller.getMyNotes(req.user._id).then((result)=>{
         console.log(result);
 res.send(result)
     })
 })
+
+router.post('/deleteNote',verifyLoggedIn,(req,res)=>{
+
+    controller.deleteNote(req.body.id)
+
+    res.send('ok');
+    })
+
 
 module.exports = router

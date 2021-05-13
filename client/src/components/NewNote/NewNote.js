@@ -29,7 +29,7 @@ let noteObj={
     notes,
     jwt
 }
-alert(title+notes)
+
 
 
 axios.post(Server+'/addNewNote',noteObj).then((response)=>{

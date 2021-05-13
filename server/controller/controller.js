@@ -2,6 +2,8 @@ var db = require('../model/connection')
 var collection=require('../model/collections')
 var bcrypt=require('bcrypt')
 var moment =require('moment')
+const { NOTES_COLLECTION } = require('../model/collections')
+const { ObjectID } = require('bson')
 
 module.exports={
 
@@ -92,6 +94,14 @@ module.exports={
 
             resolve(result)
           })
+        })
+      },
+
+      deleteNote:(id)=>{
+
+        db.get().collection(NOTES_COLLECTION).removeOne({_id:ObjectID(id)}).then(()=>{
+
+          return true;
         })
       }
 

@@ -1,14 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import Server from "../../Server";
+import EditNote from "./EditNote";
+import { Dropdown, Form, Modal, ModalDialog } from 'react-bootstrap';
 
 
 function MyNotes()
 {
-
+    let history=useHistory()
+    let jwt=localStorage.getItem('jwt')
     useEffect(()=>{
         console.log("ok");
-let jwt=localStorage.getItem('jwt')
+
 let body={
     jwt
 }
@@ -19,9 +23,49 @@ SetNotes(response.data)
 
     },[])
 
+
+
+  function  deleteNote(id){
+
+    let x=window.confirm('are you sure to delete this note');
+    
+    if(x)
+    {
+    let data={
+        jwt,
+        id
+    }
+       axios.post(Server+'/deleteNote',data).then((response)=>{
+
+alert('note deleted successfully')
+
+window.location.reload()
+
+       })
+    }
+}
+
+
+
+function editNote(id,title,note){
+
+
+setEditNote(note)
+setEditTitle(title)
+setEditId(id)
+
+
+}
+
+const[editId,setEditId]=useState('')
+const[editTitle,setEditTitle]=useState('')
+     const[editnote,setEditNote]=useState('')
     const[notes,SetNotes]=useState('')
 return (
 
+
+
+    
 
 <div className="page-content container note-has-grid">
     <ul className="nav nav-pills p-3 bg-white mb-3 rounded-pill align-items-center">
@@ -38,13 +82,13 @@ return (
         <div id="note-full-container" className="note-has-grid row">
 
 
+
+
+
 {notes.length>0?(
     notes.map((data,inex)=>{
 
         return(
-
-
-
 
 
 
@@ -57,8 +101,8 @@ return (
                         <p className="note-inner-content text-muted" data-notecontent="Blandit tempus porttitor aasfs. Integer posuere erat a ante venenatis.">{data.notes}</p>
                     </div>
                     <div className="d-flex align-items-center">
-                        <span className="mr-1"><i className="fa fa-star favourite-note"></i></span>
-                        <span className="mr-1"><i className="fa fa-trash remove-note"></i></span>
+               <button className="fa fa-trash remove-note btn" onClick={(e) => deleteNote(data._id)}>Delete</button>
+               <button className="fa fa-trash remove-note btn" onClick={(e) => editNote(data._id,data.title,data.notes)}>Edit</button>
                         <div className="ml-auto">
                             <div className="category-selector btn-group">
                                 <a className="nav-link dropdown-toggle category-dropdown label-group p-0" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
@@ -84,7 +128,17 @@ return (
         )
     })
 ):(
-    <div> </div>
+    <div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+         </div>
 )}
 
 
