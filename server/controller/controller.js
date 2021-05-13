@@ -1,6 +1,7 @@
 var db = require('../model/connection')
 var collection=require('../model/collections')
 var bcrypt=require('bcrypt')
+var moment =require('moment')
 
 module.exports={
 
@@ -68,6 +69,30 @@ module.exports={
         })
     
     
+      },
+
+
+      addNewNote:(data,userId)=>{
+        let date=moment(new Date()).format('DD/MM/YYYY')
+        let time=moment(new Date()).format('hh:mm:a')
+        console.log("inseid id",userId);
+        return new Promise((resolve,reject)=>{
+          db.get().collection(collection.NOTES_COLLECTION).insertOne({userId:userId,title:data.title,notes:data.notes,date:date,time:time}).then(()=>{
+
+            resolve()
+          })
+        })
+      },
+
+
+      getMyNotes:(id)=>{
+        return new Promise((resolve,reject)=>{
+
+          db.get().collection(collection.NOTES_COLLECTION).find({userId:id}).toArray().then((result)=>{
+
+            resolve(result)
+          })
+        })
       }
 
 

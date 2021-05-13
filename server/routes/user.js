@@ -4,6 +4,40 @@ const SECRET_KEY="SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 var jwt=require('jsonwebtoken');
 const controller=require('../controller/controller')
 
+// middleware to check if user is valid
+
+function verifyLoggedIn(req,res,next){
+
+    console.log(req.body);
+    let token=req.body.jwt
+if(token==null)
+{
+    res.status(400).send('token is null')
+}
+else
+{
+    jwt.verify(token, SECRET_KEY, (err, user)=>{
+
+if(err)
+{
+
+    res.status(400).send('token error')
+}
+else
+{
+    console.log("this is the loggedin user",user);
+    req.user=user;
+    next()
+}
+
+    })
+}
+    
+}
+
+
+
+
 router.post('/signup',(req,res)=>{
 
 controller.signup(req.body).then((result)=>{
@@ -47,5 +81,22 @@ res.send(result)
 })
 
 
+router.post('/addNewNote',verifyLoggedIn,(req,res)=>{
+
+    console.log(req.body);
+controller.addNewNote(req.body,req.user._id).then(()=>{
+
+res.status(200).send('done')
+})
+})
+
+router.post('/getMyNotes',verifyLoggedIn,(req,res)=>{
+    console.log("heri");
+
+    controller.getMyNotes(req.user._id).then((result)=>{
+        console.log(result);
+res.send(result)
+    })
+})
 
 module.exports = router
